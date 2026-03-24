@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fade & Co. — Barbershop</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./template/styles.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">Fade <span>&</span> Co.</div>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#staff">Our Barbers</a></li>
+        <li><a href="#booking">Book</a></li>
+      </ul>
+      <button class="nav-book" onclick="scrollTo('#booking')">Book Now</button>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="hero-bg"></div>
+      <div class="hero-lines">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="hero-content">
+        <div class="hero-tag">Est. 2011 — Dublin</div>
+        <h1>Sharp cuts,<br /><em>sharper</em> looks.</h1>
+        <p class="hero-sub">
+          Old-school craft meets modern style. Every cut is a conversation. Walk
+          in looking good, walk out looking great.
+        </p>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="scrollTo('#booking')">
+            Book an Appointment
+          </button>
+          <button class="btn-secondary" onclick="scrollTo('#services')">
+            View Services
+          </button>
+        </div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">12+</div>
+        <div class="hero-stat-label">Years in business</div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services">
+      <div class="section-tag">What We Offer</div>
+      <div class="section-title">
+        Services
+        <em style="font-style: italic; color: var(--gold)">&</em> Pricing
+      </div>
+      <div class="services-grid" id="servicesGrid">
+        <div
+          class="service-card"
+          data-service="Classic Cut"
+          data-price="25"
+          data-duration="30min"
+          onclick="selectService(this)"
+        >
+          <div class="service-name">Classic Cut</div>
+          <div class="service-desc">
+            A timeless haircut tailored to your head shape and style. Scissor or
+            clipper finish.
+          </div>
+          <div class="service-footer">
+            <div class="service-price">€25</div>
+            <div class="service-duration">30 min</div>
+          </div>
+          <button class="service-select-btn">Select</button>
+        </div>
+        <div
+          class="service-card"
+          data-service="Cut & Beard"
+          data-price="40"
+          data-duration="50min"
+          onclick="selectService(this)"
+        >
+          <div class="service-name">Cut & Beard</div>
+          <div class="service-desc">
+            Full haircut plus beard shaping and trim. The complete package for a
+            sharp look.
+          </div>
+          <div class="service-footer">
+            <div class="service-price">€40</div>
+            <div class="service-duration">50 min</div>
+          </div>
+          <button class="service-select-btn">Select</button>
+        </div>
+        <div
+          class="service-card"
+          data-service="Hot Towel Shave"
+          data-price="30"
+          data-duration="40min"
+          onclick="selectService(this)"
+        >
+          <div class="service-name">Hot Towel Shave</div>
+          <div class="service-desc">
+            Traditional straight razor shave with hot towel treatment. The
+            ultimate grooming ritual.
+          </div>
+          <div class="service-footer">
+            <div class="service-price">€30</div>
+            <div class="service-duration">40 min</div>
+          </div>
+          <button class="service-select-btn">Select</button>
+        </div>
+        <div
+          class="service-card"
+          data-service="Fade"
+          data-price="30"
+          data-duration="35min"
+          onclick="selectService(this)"
+        >
+          <div class="service-name">Fade</div>
+          <div class="service-desc">
+            Skin fade, low fade, or mid fade — blended to perfection with expert
+            clipper work.
+          </div>
+          <div class="service-footer">
+            <div class="service-price">€30</div>
+            <div class="service-duration">35 min</div>
+          </div>
+          <button class="service-select-btn">Select</button>
+        </div>
+        <div
+          class="service-card"
+          data-service="Kids Cut"
+          data-price="18"
+          data-duration="25min"
+          onclick="selectService(this)"
+        >
+          <div class="service-name">Kids Cut</div>
+          <div class="service-desc">
+            Gentle, patient haircuts for children under 12. We make it easy and
+            fun.
+          </div>
+          <div class="service-footer">
+            <div class="service-price">€18</div>
+            <div class="service-duration">25 min</div>
+          </div>
+          <button class="service-select-btn">Select</button>
+        </div>
+        <div
+          class="service-card"
+          data-service="Beard Sculpt"
+          data-price="20"
+          data-duration="30min"
+          onclick="selectService(this)"
+        >
+          <div class="service-name">Beard Sculpt</div>
+          <div class="service-desc">
+            Shape, line up, and style your beard to complement your face
+            perfectly.
+          </div>
+          <div class="service-footer">
+            <div class="service-price">€20</div>
+            <div class="service-duration">30 min</div>
+          </div>
+          <button class="service-select-btn">Select</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Staff -->
+    <section id="staff">
+      <div class="section-tag">Meet the Team</div>
+      <div class="section-title">Our Barbers</div>
+      <div class="staff-grid" id="staffGrid">
+        <div
+          class="staff-card"
+          data-barber="Marco"
+          onclick="selectBarber(this)"
+        >
+          <div class="staff-avatar"><div class="staff-initials">M</div></div>
+          <div class="staff-title">Master Barber</div>
+          <div class="staff-name">Marco Reeves</div>
+          <div class="staff-bio">
+            15 years behind the chair. Specialises in fades and classic cuts.
+            Trained in Seville.
+          </div>
+        </div>
+        <div
+          class="staff-card"
+          data-barber="Yasmin"
+          onclick="selectBarber(this)"
+        >
+          <div class="staff-avatar"><div class="staff-initials">Y</div></div>
+          <div class="staff-title">Senior Barber</div>
+          <div class="staff-name">Yasmin Cole</div>
+          <div class="staff-bio">
+            Expert in textured hair and beard artistry. Known for attention to
+            detail.
+          </div>
+        </div>
+        <div class="staff-card" data-barber="Leo" onclick="selectBarber(this)">
+          <div class="staff-avatar"><div class="staff-initials">L</div></div>
+          <div class="staff-title">Barber</div>
+          <div class="staff-name">Leo Harrington</div>
+          <div class="staff-bio">
+            Specialises in modern styles and skin fades. Favourite for the
+            under-30 crowd.
+          </div>
+        </div>
+        <div class="staff-card" data-barber="Any" onclick="selectBarber(this)">
+          <div class="staff-avatar"><div class="staff-initials">?</div></div>
+          <div class="staff-title">Available</div>
+          <div class="staff-name">No preference</div>
+          <div class="staff-bio">
+            We'll match you with whoever's available first for your chosen time
+            slot.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking -->
+    <section id="booking">
+      <div class="section-tag">Reserve Your Spot</div>
+      <div class="section-title">Book an Appointment</div>
+
+      <div class="steps">
+        <div class="step done" id="step1">
+          <span class="step-num">01</span>Service
+        </div>
+        <div class="step done" id="step2">
+          <span class="step-num">02</span>Barber
+        </div>
+        <div class="step active" id="step3">
+          <span class="step-num">03</span>Date & Time
+        </div>
+        <div class="step" id="step4">
+          <span class="step-num">04</span>Your Details
+        </div>
+      </div>
+
+      <div class="booking-layout">
+        <div>
+          <!-- Calendar -->
+          <div class="calendar">
+            <div class="calendar-header">
+              <button class="calendar-nav" onclick="prevMonth()">
+                &#8592;
+              </button>
+              <div class="calendar-month" id="calMonth">March 2026</div>
+              <button class="calendar-nav" onclick="nextMonth()">
+                &#8594;
+              </button>
+            </div>
+            <div class="calendar-grid" id="calGrid"></div>
+          </div>
+
+          <!-- Time slots -->
+          <div class="time-slots">
+            <div class="time-label">
+              Available times —
+              <span id="selectedDateLabel">select a date</span>
+            </div>
+            <div class="slots-grid" id="slotsGrid">
+              <div
+                style="
+                  color: var(--muted);
+                  font-size: 13px;
+                  font-style: italic;
+                  grid-column: 1/-1;
+                  padding: 20px 0;
+                "
+              >
+                Pick a date to see available times.
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact & Payment -->
+          <div id="contactForm" style="display: none">
+            <div class="section-tag" style="margin-bottom: 24px">
+              Your Details
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">First name</label>
+                <input
+                  class="form-input"
+                  type="text"
+                  placeholder="James"
+                  id="fname"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last name</label>
+                <input
+                  class="form-input"
+                  type="text"
+                  placeholder="Murphy"
+                  id="lname"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input
+                class="form-input"
+                type="email"
+                placeholder="james@example.com"
+                id="email"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input
+                class="form-input"
+                type="tel"
+                placeholder="+353 87 000 0000"
+                id="phone"
+              />
+            </div>
+
+            <div class="payment-section">
+              <div class="payment-label">Payment</div>
+              <div class="card-icons">
+                <div class="card-icon">Visa</div>
+                <div class="card-icon">MC</div>
+                <div class="card-icon">Amex</div>
+              </div>
+              <input
+                class="card-field"
+                type="text"
+                placeholder="Card number"
+                maxlength="19"
+                oninput="formatCard(this)"
+              />
+              <div class="form-row">
+                <input
+                  class="card-field"
+                  type="text"
+                  placeholder="MM / YY"
+                  maxlength="7"
+                  style="margin-bottom: 0"
+                  oninput="formatExpiry(this)"
+                />
+                <input
+                  class="card-field"
+                  type="text"
+                  placeholder="CVV"
+                  maxlength="3"
+                  style="margin-bottom: 0"
+                />
+              </div>
+            </div>
+
+            <button
+              class="btn-confirm"
+              onclick="confirmBooking()"
+              id="confirmBtn"
+            >
+              Confirm & Pay
+            </button>
+          </div>
+
+          <!-- Success -->
+          <div class="success-screen" id="successScreen">
+            <div class="success-icon">✓</div>
+            <div class="section-title" style="margin-bottom: 16px">
+              You're booked in.
+            </div>
+            <p
+              style="color: var(--muted); margin-bottom: 8px"
+              id="successMsg"
+            ></p>
+            <p style="color: var(--muted); font-size: 13px">
+              A confirmation has been sent to your email.
+            </p>
+            <button
+              class="btn-secondary"
+              style="margin-top: 32px"
+              onclick="resetBooking()"
+            >
+              Book another
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="booking-summary">
+          <div class="summary-title">Your booking</div>
+          <div class="summary-item">
+            <span class="summary-label">Service</span>
+            <span class="summary-value" id="sumService">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Barber</span>
+            <span class="summary-value" id="sumBarber">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Date</span>
+            <span class="summary-value" id="sumDate">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Time</span>
+            <span class="summary-value" id="sumTime">—</span>
+          </div>
+          <div class="summary-total">
+            <span class="summary-total-label">Total</span>
+            <span class="summary-total-price" id="sumPrice">€—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-logo">Fade <span>&</span> Co.</div>
+      <div class="footer-info">
+        14 Grafton Arcade, Dublin 2<br />
+        Mon–Sat 9am–7pm · Sun 10am–5pm<br />
+        hello@fadeandco.ie · +353 1 234 5678
+      </div>
+    </footer>
+
+    <script src="./template/app.js"></script>
+  </body>
+</html>
