@@ -1,6 +1,6 @@
 from models import db
 
-class barbers(db.Model):
+class Barber(db.Model):
     __tablename__ = 'barbers'
 
     id = db.Column(db.Integer, primary_key=True)
