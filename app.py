@@ -8,6 +8,9 @@ def create_app():
 
     db.init_app(app)
 
+    with app.app_context():
+        db.create_all()
+
     @app.route('/')
     def index():
         return render_template('index.html')
@@ -17,10 +20,3 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
-"""
-
-Just one route for now — serving your `index.html`. No blueprints yet, keeping it simple.
-
-"""
-SECRET_KEY=anylongrandostring123
-DATABASE_URL=postgresql://localhost/barbershop
