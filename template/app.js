@@ -1,3 +1,29 @@
+async function loadServices() {
+  const response = await fetch("/api/services");
+  const services = await response.json();
+
+  const grid = document.getElementById("servicesGrid");
+  grid.innerHTML = "";
+
+  services.forEach((service) => {
+    grid.innerHTML += `
+            <div class="service-card" 
+                data-service="${service.name}" 
+                data-price="${service.price}" 
+                data-duration="${service.duration_minutes}min"
+                onclick="selectService(this)">
+                <div class="service-name">${service.name}</div>
+                <div class="service-desc">${service.description}</div>
+                <div class="service-footer">
+                    <div class="service-price">€${service.price}</div>
+                    <div class="service-duration">${service.duration_minutes} min</div>
+                </div>
+                <button class="service-select-btn">Select</button>
+            </div>
+        `;
+  });
+}
+
 const state = {
   service: null,
   price: 0,
