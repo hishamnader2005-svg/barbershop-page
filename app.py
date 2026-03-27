@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from config import Config
 from models import db
 from routes.services import services_bp
+from routes.barbers import barbers_bp
 
 def create_app():
     app = Flask(__name__)
@@ -13,6 +14,7 @@ def create_app():
         db.create_all()
 
     app.register_blueprint(services_bp)
+    app.register_blueprint(barbers_bp)
 
     @app.route('/')
     def index():
