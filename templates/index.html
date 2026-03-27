@@ -8,8 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">  </head>
   <body>
     <nav class="nav-links">
       <a href="#home">
@@ -59,13 +58,7 @@
         <em style="font-style: italic; color: var(--gold)">&</em> Pricing
       </div>
       <div class="services-grid" id="servicesGrid">
-        <div
-          class="service-card"
-          data-service="Classic Cut"
-          data-price="25"
-          data-duration="30min"
-          onclick="selectService(this)"
-        >
+        <div>
           <div class="service-name">Classic Cut</div>
           <div class="service-desc">
             A timeless haircut tailored to your head shape and style. Scissor or
@@ -424,6 +417,5 @@
       </div>
     </footer>
 
-    <script src="app.js"></script>
-  </body>
+<script src="{{ url_for('static', filename='app.js') }}"></script>  </body>
 </html>

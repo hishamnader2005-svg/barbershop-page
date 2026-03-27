@@ -246,3 +246,4 @@ function resetBooking() {
 }
 
 renderCalendar();
+loadServices();
