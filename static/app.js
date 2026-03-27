@@ -24,6 +24,38 @@ async function loadServices() {
   });
 }
 
+async function loadBarbers() {
+  const response = await fetch("/api/barbers");
+  const barbers = await response.json();
+
+  const grid = document.getElementById("staffGrid");
+  grid.innerHTML = "";
+
+  barbers.forEach((barber) => {
+    grid.innerHTML += `
+            <div class="staff-card" data-barber="${barber.name}" onclick="selectBarber(this)">
+                <div class="staff-avatar">
+                    <div class="staff-initials">${barber.name[0]}</div>
+                </div>
+                <div class="staff-title">${barber.title}</div>
+                <div class="staff-name">${barber.name}</div>
+                <div class="staff-bio">${barber.bio}</div>
+            </div>
+        `;
+  });
+
+  grid.innerHTML += `
+        <div class="staff-card" data-barber="Any" onclick="selectBarber(this)">
+            <div class="staff-avatar">
+                <div class="staff-initials">?</div>
+            </div>
+            <div class="staff-title">Available</div>
+            <div class="staff-name">No preference</div>
+            <div class="staff-bio">We'll match you with whoever's available first.</div>
+        </div>
+    `;
+}
+
 const state = {
   service: null,
   price: 0,
@@ -244,6 +276,6 @@ function confirmBooking() {
 function resetBooking() {
   location.reload();
 }
-
 renderCalendar();
 loadServices();
+loadBarbers();
