@@ -6,6 +6,10 @@
     <title>Fade & Co. — Barbershop</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      const STRIPE_KEY = "{{ stripe_key }}";
+    </script>
   </head>
   <body>
 
@@ -122,11 +126,14 @@
                 <div class="card-icon">MC</div>
                 <div class="card-icon">Amex</div>
               </div>
-              <input class="card-field" type="text" placeholder="Card number" maxlength="19" oninput="formatCard(this)"/>
-              <div class="form-row">
-                <input class="card-field" type="text" placeholder="MM / YY" maxlength="7" style="margin-bottom:0" oninput="formatExpiry(this)"/>
-                <input class="card-field" type="text" placeholder="CVV" maxlength="3" style="margin-bottom:0"/>
-              </div>
+              <!-- Stripe card element goes here -->
+              <div id="card-element" style="
+                background: var(--charcoal);
+                border: 1px solid var(--border);
+                padding: 14px 16px;
+                margin-bottom: 12px;
+              "></div>
+              <div id="card-errors" style="color:#c0392b;font-size:13px;margin-bottom:12px;"></div>
             </div>
 
             <button class="btn-confirm" onclick="confirmBooking()" id="confirmBtn">Confirm & Pay</button>

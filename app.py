@@ -5,6 +5,7 @@ from routes.services import services_bp
 from routes.barbers import barbers_bp
 from routes.bookings import bookings_bp
 from routes.auth import auth_bp, bcrypt
+import os
 
 def create_app():
     app = Flask(__name__)
@@ -23,7 +24,8 @@ def create_app():
 
     @app.route('/')
     def index():
-        return render_template('index.html')
+        return render_template('index.html',
+            stripe_key=os.getenv('STRIPE_PUBLISHABLE_KEY'))
 
     @app.route('/login')
     def login_page():
