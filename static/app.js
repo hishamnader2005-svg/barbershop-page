@@ -1,96 +1,15 @@
-async function loadServices() {
-  const response = await fetch("/api/services");
-  const services = await response.json();
-
-  const grid = document.getElementById("servicesGrid");
-  grid.innerHTML = "";
-
-  services.forEach((service) => {
-    grid.innerHTML += `
-            <div class="service-card" 
-                data-service="${service.name}" 
-                data-price="${service.price}" 
-                data-duration="${service.duration_minutes}min"
-                onclick="selectService(this)">
-                <div class="service-name">${service.name}</div>
-                <div class="service-desc">${service.description}</div>
-                <div class="service-footer">
-                    <div class="service-price">€${service.price}</div>
-                    <div class="service-duration">${service.duration_minutes} min</div>
-                </div>
-                <button class="service-select-btn">Select</button>
-            </div>
-        `;
-  });
-}
-
-async function checkAuth() {
-  const response = await fetch("/api/me");
-  const nav = document.getElementById("authButtons");
-
-  if (response.ok) {
-    const data = await response.json();
-    nav.innerHTML = `
-            <span style="color:var(--muted);font-size:13px;font-family:'DM Mono',monospace;">${data.email}</span>
-            <button class="btn-secondary" style="padding:10px 20px;" onclick="logout()">Logout</button>
-            <button class="nav-book" onclick="scrollTo('#booking')">Book Now</button>
-        `;
-  } else {
-    nav.innerHTML = `
-            <a href="/login"><button class="btn-secondary" style="padding:10px 20px;">Login</button></a>
-            <a href="/signup"><button class="btn-secondary" style="padding:10px 20px;">Sign Up</button></a>
-            <button class="nav-book" onclick="scrollTo('#booking')">Book Now</button>
-        `;
-  }
-}
-
-async function logout() {
-  await fetch("/api/logout", { method: "POST" });
-  window.location.reload();
-}
-
-async function loadBarbers() {
-  const response = await fetch("/api/barbers");
-  const barbers = await response.json();
-
-  const grid = document.getElementById("staffGrid");
-  grid.innerHTML = "";
-
-  barbers.forEach((barber) => {
-    grid.innerHTML += `
-            <div class="staff-card" data-barber="${barber.name}" onclick="selectBarber(this)">
-                <div class="staff-avatar">
-                    <div class="staff-initials">${barber.name[0]}</div>
-                </div>
-                <div class="staff-title">${barber.title}</div>
-                <div class="staff-name">${barber.name}</div>
-                <div class="staff-bio">${barber.bio}</div>
-            </div>
-        `;
-  });
-
-  grid.innerHTML += `
-        <div class="staff-card" data-barber="Any" onclick="selectBarber(this)">
-            <div class="staff-avatar">
-                <div class="staff-initials">?</div>
-            </div>
-            <div class="staff-title">Available</div>
-            <div class="staff-name">No preference</div>
-            <div class="staff-bio">We'll match you with whoever's available first.</div>
-        </div>
-    `;
-}
-
 const state = {
   service: null,
   price: 0,
   barber: null,
   date: null,
   time: null,
+  service_id: null,
+  barber_id: null,
 };
 
 let currentYear = 2026;
-let currentMonth = 2; // 0-indexed: March = 2
+let currentMonth = 2;
 
 const MONTHS = [
   "January",
@@ -135,6 +54,90 @@ function scrollTo(id) {
   document.querySelector(id).scrollIntoView({ behavior: "smooth" });
 }
 
+async function loadServices() {
+  const response = await fetch("/api/services");
+  const services = await response.json();
+
+  const grid = document.getElementById("servicesGrid");
+  grid.innerHTML = "";
+
+  services.forEach((service) => {
+    grid.innerHTML += `
+      <div class="service-card"
+        data-service="${service.name}"
+        data-price="${service.price}"
+        data-duration="${service.duration_minutes}min"
+        data-id="${service.id}"
+        onclick="selectService(this)">
+        <div class="service-name">${service.name}</div>
+        <div class="service-desc">${service.description}</div>
+        <div class="service-footer">
+          <div class="service-price">€${service.price}</div>
+          <div class="service-duration">${service.duration_minutes} min</div>
+        </div>
+        <button class="service-select-btn">Select</button>
+      </div>
+    `;
+  });
+}
+
+async function loadBarbers() {
+  const response = await fetch("/api/barbers");
+  const barbers = await response.json();
+
+  const grid = document.getElementById("staffGrid");
+  grid.innerHTML = "";
+
+  barbers.forEach((barber) => {
+    grid.innerHTML += `
+      <div class="staff-card" data-barber="${barber.name}" data-id="${barber.id}" onclick="selectBarber(this)">
+        <div class="staff-avatar">
+          <div class="staff-initials">${barber.name[0]}</div>
+        </div>
+        <div class="staff-title">${barber.title}</div>
+        <div class="staff-name">${barber.name}</div>
+        <div class="staff-bio">${barber.bio}</div>
+      </div>
+    `;
+  });
+
+  grid.innerHTML += `
+    <div class="staff-card" data-barber="Any" data-id="1" onclick="selectBarber(this)">
+      <div class="staff-avatar">
+        <div class="staff-initials">?</div>
+      </div>
+      <div class="staff-title">Available</div>
+      <div class="staff-name">No preference</div>
+      <div class="staff-bio">We'll match you with whoever's available first.</div>
+    </div>
+  `;
+}
+
+async function checkAuth() {
+  const response = await fetch("/api/me");
+  const nav = document.getElementById("authButtons");
+
+  if (response.ok) {
+    const data = await response.json();
+    nav.innerHTML = `
+      <span style="color:var(--muted);font-size:13px;font-family:'DM Mono',monospace;">${data.email}</span>
+      <button class="btn-secondary" style="padding:10px 20px;" onclick="logout()">Logout</button>
+      <button class="nav-book" onclick="scrollTo('#booking')">Book Now</button>
+    `;
+  } else {
+    nav.innerHTML = `
+      <a href="/login"><button class="btn-secondary" style="padding:10px 20px;">Login</button></a>
+      <a href="/signup"><button class="btn-secondary" style="padding:10px 20px;">Sign Up</button></a>
+      <button class="nav-book" onclick="scrollTo('#booking')">Book Now</button>
+    `;
+  }
+}
+
+async function logout() {
+  await fetch("/api/logout", { method: "POST" });
+  window.location.reload();
+}
+
 function selectService(card) {
   document
     .querySelectorAll(".service-card")
@@ -142,6 +145,7 @@ function selectService(card) {
   card.classList.add("selected");
   state.service = card.dataset.service;
   state.price = parseInt(card.dataset.price);
+  state.service_id = parseInt(card.dataset.id);
   updateSummary();
   document.getElementById("step1").className = "step done";
 }
@@ -152,6 +156,7 @@ function selectBarber(card) {
     .forEach((c) => c.classList.remove("selected"));
   card.classList.add("selected");
   state.barber = card.dataset.barber;
+  state.barber_id = parseInt(card.dataset.id);
   updateSummary();
   document.getElementById("step2").className = "step done";
 }
@@ -278,29 +283,81 @@ function formatExpiry(input) {
   input.value = v;
 }
 
-function confirmBooking() {
+async function confirmBooking() {
   const fname = document.getElementById("fname").value;
   const lname = document.getElementById("lname").value;
+  const email = document.getElementById("email").value;
+
   if (!fname || !lname) {
     alert("Please enter your name.");
     return;
   }
-  if (!document.getElementById("email").value) {
+  if (!email) {
     alert("Please enter your email.");
     return;
   }
 
-  document.getElementById("contactForm").style.display = "none";
-  const screen = document.getElementById("successScreen");
-  screen.classList.add("show");
-  document.getElementById("successMsg").textContent =
-    `${state.service} with ${state.barber === "Any" ? "a barber" : state.barber} on ${state.date} at ${state.time}.`;
-  screen.scrollIntoView({ behavior: "smooth" });
+  if (!state.service_id || !state.barber_id || !state.date || !state.time) {
+    alert("Please complete all booking steps first.");
+    return;
+  }
+
+  const authCheck = await fetch("/api/me");
+  if (!authCheck.ok) {
+    window.location.href = "/login";
+    return;
+  }
+
+  const user = await authCheck.json();
+
+  const [day, month, year] = state.date.split(" ");
+  const months = {
+    January: "01",
+    February: "02",
+    March: "03",
+    April: "04",
+    May: "05",
+    June: "06",
+    July: "07",
+    August: "08",
+    September: "09",
+    October: "10",
+    November: "11",
+    December: "12",
+  };
+  const formattedDate = `${year}-${months[month]}-${day.padStart(2, "0")}`;
+  const formattedTime = state.time.padStart(5, "0");
+
+  const response = await fetch("/api/bookings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: user.user_id,
+      barber_id: state.barber_id,
+      service_id: state.service_id,
+      booking_date: formattedDate,
+      booking_time: formattedTime,
+    }),
+  });
+
+  const result = await response.json();
+
+  if (response.ok) {
+    document.getElementById("contactForm").style.display = "none";
+    const screen = document.getElementById("successScreen");
+    screen.classList.add("show");
+    document.getElementById("successMsg").textContent =
+      `${state.service} with ${state.barber === "Any" ? "a barber" : state.barber} on ${state.date} at ${state.time}.`;
+    screen.scrollIntoView({ behavior: "smooth" });
+  } else {
+    alert("Something went wrong. Please try again.");
+  }
 }
 
 function resetBooking() {
   location.reload();
 }
+
 renderCalendar();
 loadServices();
 loadBarbers();
