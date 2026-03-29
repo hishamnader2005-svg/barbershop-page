@@ -4,22 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fade & Co. — Barbershop</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">  </head>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
   <body>
-    <nav class="nav-links">
-      <a href="#home">
-        <div class="logo">Fade <span>&</span> Co.</div>
-      </a>
+
+    <nav>
+      <a href="/"><div class="logo">Fade <span>&</span> Co.</div></a>
       <ul class="nav-links">
         <li><a href="#services">Services</a></li>
         <li><a href="#staff">Our Barbers</a></li>
         <li><a href="#booking">Book</a></li>
       </ul>
-      <button class="nav-book" onclick="scrollTo('#booking')">Book Now</button>
+      <div id="authButtons" style="display:flex;gap:12px;align-items:center;"></div>
     </nav>
 
     <!-- Hero -->
@@ -36,12 +33,8 @@
           in looking good, walk out looking great.
         </p>
         <div class="hero-cta">
-          <button class="btn-primary" onclick="scrollTo('#booking')">
-            Book an Appointment
-          </button>
-          <button class="btn-secondary" onclick="scrollTo('#services')">
-            View Services
-          </button>
+          <button class="btn-primary" onclick="scrollTo('#booking')">Book an Appointment</button>
+          <button class="btn-secondary" onclick="scrollTo('#services')">View Services</button>
         </div>
       </div>
       <div class="hero-stat">
@@ -54,122 +47,16 @@
     <section id="services">
       <div class="section-tag">What We Offer</div>
       <div class="section-title">
-        Services
-        <em style="font-style: italic; color: var(--gold)">&</em> Pricing
+        Services <em style="font-style:italic;color:var(--gold)">&</em> Pricing
       </div>
-      <div class="services-grid" id="servicesGrid">
-        <div>
-          <div class="service-name">Classic Cut</div>
-          <div class="service-desc">
-            A timeless haircut tailored to your head shape and style. Scissor or
-            clipper finish.
-          </div>
-          <div class="service-footer">
-            <div class="service-price">€25</div>
-            <div class="service-duration">30 min</div>
-          </div>
-          <button class="service-select-btn">Select</button>
-        </div>
-        <div
-          class="service-card"
-          data-service="Cut & Beard"
-          data-price="40"
-          data-duration="50min"
-          onclick="selectService(this)"
-        >
-          <div class="service-name">Cut & Beard</div>
-          <div class="service-desc">
-            Full haircut plus beard shaping and trim. The complete package for a
-            sharp look.
-          </div>
-          <div class="service-footer">
-            <div class="service-price">€40</div>
-            <div class="service-duration">50 min</div>
-          </div>
-          <button class="service-select-btn">Select</button>
-        </div>
-        <div
-          class="service-card"
-          data-service="Hot Towel Shave"
-          data-price="30"
-          data-duration="40min"
-          onclick="selectService(this)"
-        >
-          <div class="service-name">Hot Towel Shave</div>
-          <div class="service-desc">
-            Traditional straight razor shave with hot towel treatment. The
-            ultimate grooming ritual.
-          </div>
-          <div class="service-footer">
-            <div class="service-price">€30</div>
-            <div class="service-duration">40 min</div>
-          </div>
-          <button class="service-select-btn">Select</button>
-        </div>
-        <div
-          class="service-card"
-          data-service="Fade"
-          data-price="30"
-          data-duration="35min"
-          onclick="selectService(this)"
-        >
-          <div class="service-name">Fade</div>
-          <div class="service-desc">
-            Skin fade, low fade, or mid fade — blended to perfection with expert
-            clipper work.
-          </div>
-          <div class="service-footer">
-            <div class="service-price">€30</div>
-            <div class="service-duration">35 min</div>
-          </div>
-          <button class="service-select-btn">Select</button>
-        </div>
-        <div
-          class="service-card"
-          data-service="Kids Cut"
-          data-price="18"
-          data-duration="25min"
-          onclick="selectService(this)"
-        >
-          <div class="service-name">Kids Cut</div>
-          <div class="service-desc">
-            Gentle, patient haircuts for children under 12. We make it easy and
-            fun.
-          </div>
-          <div class="service-footer">
-            <div class="service-price">€18</div>
-            <div class="service-duration">25 min</div>
-          </div>
-          <button class="service-select-btn">Select</button>
-        </div>
-        <div
-          class="service-card"
-          data-service="Beard Sculpt"
-          data-price="20"
-          data-duration="30min"
-          onclick="selectService(this)"
-        >
-          <div class="service-name">Beard Sculpt</div>
-          <div class="service-desc">
-            Shape, line up, and style your beard to complement your face
-            perfectly.
-          </div>
-          <div class="service-footer">
-            <div class="service-price">€20</div>
-            <div class="service-duration">30 min</div>
-          </div>
-          <button class="service-select-btn">Select</button>
-        </div>
-      </div>
+      <div class="services-grid" id="servicesGrid"></div>
     </section>
 
     <!-- Staff -->
     <section id="staff">
       <div class="section-tag">Meet the Team</div>
       <div class="section-title">Our Barbers</div>
-      <div class="staff-grid" id="staffGrid"> </div>
-        </div>
-      </div>
+      <div class="staff-grid" id="staffGrid"></div>
     </section>
 
     <!-- Booking -->
@@ -178,18 +65,10 @@
       <div class="section-title">Book an Appointment</div>
 
       <div class="steps">
-        <div class="step done" id="step1">
-          <span class="step-num">01</span>Service
-        </div>
-        <div class="step done" id="step2">
-          <span class="step-num">02</span>Barber
-        </div>
-        <div class="step active" id="step3">
-          <span class="step-num">03</span>Date & Time
-        </div>
-        <div class="step" id="step4">
-          <span class="step-num">04</span>Your Details
-        </div>
+        <div class="step done" id="step1"><span class="step-num">01</span>Service</div>
+        <div class="step done" id="step2"><span class="step-num">02</span>Barber</div>
+        <div class="step active" id="step3"><span class="step-num">03</span>Date & Time</div>
+        <div class="step" id="step4"><span class="step-num">04</span>Your Details</div>
       </div>
 
       <div class="booking-layout">
@@ -197,80 +76,43 @@
           <!-- Calendar -->
           <div class="calendar">
             <div class="calendar-header">
-              <button class="calendar-nav" onclick="prevMonth()">
-                &#8592;
-              </button>
+              <button class="calendar-nav" onclick="prevMonth()">&#8592;</button>
               <div class="calendar-month" id="calMonth">March 2026</div>
-              <button class="calendar-nav" onclick="nextMonth()">
-                &#8594;
-              </button>
+              <button class="calendar-nav" onclick="nextMonth()">&#8594;</button>
             </div>
             <div class="calendar-grid" id="calGrid"></div>
           </div>
 
           <!-- Time slots -->
           <div class="time-slots">
-            <div class="time-label">
-              Available times —
-              <span id="selectedDateLabel">select a date</span>
-            </div>
+            <div class="time-label">Available times — <span id="selectedDateLabel">select a date</span></div>
             <div class="slots-grid" id="slotsGrid">
-              <div
-                style="
-                  color: var(--muted);
-                  font-size: 13px;
-                  font-style: italic;
-                  grid-column: 1/-1;
-                  padding: 20px 0;
-                "
-              >
+              <div style="color:var(--muted);font-size:13px;font-style:italic;grid-column:1/-1;padding:20px 0;">
                 Pick a date to see available times.
               </div>
             </div>
           </div>
 
           <!-- Contact & Payment -->
-          <div id="contactForm" style="display: none">
-            <div class="section-tag" style="margin-bottom: 24px">
-              Your Details
-            </div>
+          <div id="contactForm" style="display:none">
+            <div class="section-tag" style="margin-bottom:24px">Your Details</div>
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">First name</label>
-                <input
-                  class="form-input"
-                  type="text"
-                  placeholder="James"
-                  id="fname"
-                />
+                <input class="form-input" type="text" placeholder="James" id="fname"/>
               </div>
               <div class="form-group">
                 <label class="form-label">Last name</label>
-                <input
-                  class="form-input"
-                  type="text"
-                  placeholder="Murphy"
-                  id="lname"
-                />
+                <input class="form-input" type="text" placeholder="Murphy" id="lname"/>
               </div>
             </div>
             <div class="form-group">
               <label class="form-label">Email</label>
-              <input
-                class="form-input"
-                type="email"
-                placeholder="james@example.com"
-                id="email"
-              />
+              <input class="form-input" type="email" placeholder="james@example.com" id="email"/>
             </div>
             <div class="form-group">
               <label class="form-label">Phone</label>
-              <input
-                class="form-input"
-                type="tel"
-                placeholder="+353 87 000 0000"
-                id="phone"
-              />
+              <input class="form-input" type="tel" placeholder="+353 87 000 0000" id="phone"/>
             </div>
 
             <div class="payment-section">
@@ -280,61 +122,23 @@
                 <div class="card-icon">MC</div>
                 <div class="card-icon">Amex</div>
               </div>
-              <input
-                class="card-field"
-                type="text"
-                placeholder="Card number"
-                maxlength="19"
-                oninput="formatCard(this)"
-              />
+              <input class="card-field" type="text" placeholder="Card number" maxlength="19" oninput="formatCard(this)"/>
               <div class="form-row">
-                <input
-                  class="card-field"
-                  type="text"
-                  placeholder="MM / YY"
-                  maxlength="7"
-                  style="margin-bottom: 0"
-                  oninput="formatExpiry(this)"
-                />
-                <input
-                  class="card-field"
-                  type="text"
-                  placeholder="CVV"
-                  maxlength="3"
-                  style="margin-bottom: 0"
-                />
+                <input class="card-field" type="text" placeholder="MM / YY" maxlength="7" style="margin-bottom:0" oninput="formatExpiry(this)"/>
+                <input class="card-field" type="text" placeholder="CVV" maxlength="3" style="margin-bottom:0"/>
               </div>
             </div>
 
-            <button
-              class="btn-confirm"
-              onclick="confirmBooking()"
-              id="confirmBtn"
-            >
-              Confirm & Pay
-            </button>
+            <button class="btn-confirm" onclick="confirmBooking()" id="confirmBtn">Confirm & Pay</button>
           </div>
 
           <!-- Success -->
           <div class="success-screen" id="successScreen">
             <div class="success-icon">✓</div>
-            <div class="section-title" style="margin-bottom: 16px">
-              You're booked in.
-            </div>
-            <p
-              style="color: var(--muted); margin-bottom: 8px"
-              id="successMsg"
-            ></p>
-            <p style="color: var(--muted); font-size: 13px">
-              A confirmation has been sent to your email.
-            </p>
-            <button
-              class="btn-secondary"
-              style="margin-top: 32px"
-              onclick="resetBooking()"
-            >
-              Book another
-            </button>
+            <div class="section-title" style="margin-bottom:16px">You're booked in.</div>
+            <p style="color:var(--muted);margin-bottom:8px" id="successMsg"></p>
+            <p style="color:var(--muted);font-size:13px">A confirmation has been sent to your email.</p>
+            <button class="btn-secondary" style="margin-top:32px" onclick="resetBooking()">Book another</button>
           </div>
         </div>
 
@@ -368,11 +172,12 @@
     <footer>
       <div class="footer-logo">Fade <span>&</span> Co.</div>
       <div class="footer-info">
-        14 Grafton Arcade, Dublin 2<br />
-        Mon–Sat 9am–7pm · Sun 10am–5pm<br />
+        14 Grafton Arcade, Dublin 2<br/>
+        Mon–Sat 9am–7pm · Sun 10am–5pm<br/>
         hello@fadeandco.ie · +353 1 234 5678
       </div>
     </footer>
 
-<script src="{{ url_for('static', filename='app.js') }}"></script>  </body>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
 </html>

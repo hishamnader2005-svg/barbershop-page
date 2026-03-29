@@ -24,6 +24,31 @@ async function loadServices() {
   });
 }
 
+async function checkAuth() {
+  const response = await fetch("/api/me");
+  const nav = document.getElementById("authButtons");
+
+  if (response.ok) {
+    const data = await response.json();
+    nav.innerHTML = `
+            <span style="color:var(--muted);font-size:13px;font-family:'DM Mono',monospace;">${data.email}</span>
+            <button class="btn-secondary" style="padding:10px 20px;" onclick="logout()">Logout</button>
+            <button class="nav-book" onclick="scrollTo('#booking')">Book Now</button>
+        `;
+  } else {
+    nav.innerHTML = `
+            <a href="/login"><button class="btn-secondary" style="padding:10px 20px;">Login</button></a>
+            <a href="/signup"><button class="btn-secondary" style="padding:10px 20px;">Sign Up</button></a>
+            <button class="nav-book" onclick="scrollTo('#booking')">Book Now</button>
+        `;
+  }
+}
+
+async function logout() {
+  await fetch("/api/logout", { method: "POST" });
+  window.location.reload();
+}
+
 async function loadBarbers() {
   const response = await fetch("/api/barbers");
   const barbers = await response.json();
@@ -279,3 +304,4 @@ function resetBooking() {
 renderCalendar();
 loadServices();
 loadBarbers();
+checkAuth();
