@@ -50,6 +50,34 @@ const ALL_SLOTS = [
 ];
 const UNAVAILABLE = [3, 7, 11, 15];
 
+// Initialise Stripe
+const stripe = Stripe(STRIPE_KEY);
+const elements = stripe.elements();
+const cardElement = elements.create("card", {
+  style: {
+    base: {
+      color: "#f5f0e8",
+      fontFamily: '"DM Mono", monospace',
+      fontSize: "14px",
+      "::placeholder": { color: "#6b6b65" },
+    },
+    invalid: { color: "#c0392b" },
+  },
+});
+
+let cardMounted = false;
+
+function mountCard() {
+  if (!cardMounted) {
+    cardElement.mount("#card-element");
+    cardElement.on("change", (event) => {
+      const errors = document.getElementById("card-errors");
+      errors.textContent = event.error ? event.error.message : "";
+    });
+    cardMounted = true;
+  }
+}
+
 function scrollTo(id) {
   document.querySelector(id).scrollIntoView({ behavior: "smooth" });
 }
@@ -255,6 +283,7 @@ function selectTime(time, btn) {
   updateSummary();
   document.getElementById("step4").className = "step active";
   document.getElementById("contactForm").style.display = "block";
+  mountCard();
   setTimeout(() => {
     document
       .getElementById("contactForm")
@@ -270,17 +299,6 @@ function updateSummary() {
   document.getElementById("sumPrice").textContent = state.price
     ? `€${state.price}`
     : "€—";
-}
-
-function formatCard(input) {
-  let v = input.value.replace(/\D/g, "").substring(0, 16);
-  input.value = v.replace(/(.{4})/g, "$1 ").trim();
-}
-
-function formatExpiry(input) {
-  let v = input.value.replace(/\D/g, "").substring(0, 4);
-  if (v.length >= 2) v = v.slice(0, 2) + " / " + v.slice(2);
-  input.value = v;
 }
 
 async function confirmBooking() {
@@ -307,7 +325,6 @@ async function confirmBooking() {
     window.location.href = "/login";
     return;
   }
-
   const user = await authCheck.json();
 
   const [day, month, year] = state.date.split(" ");
@@ -328,7 +345,12 @@ async function confirmBooking() {
   const formattedDate = `${year}-${months[month]}-${day.padStart(2, "0")}`;
   const formattedTime = state.time.padStart(5, "0");
 
-  const response = await fetch("/api/bookings", {
+  // Step 1 — create payment intent on backend
+  const confirmBtn = document.getElementById("confirmBtn");
+  confirmBtn.textContent = "Processing...";
+  confirmBtn.disabled = true;
+
+  const intentResponse = await fetch("/api/bookings", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -337,12 +359,52 @@ async function confirmBooking() {
       service_id: state.service_id,
       booking_date: formattedDate,
       booking_time: formattedTime,
+      price: state.price,
     }),
   });
 
-  const result = await response.json();
+  const intentData = await intentResponse.json();
 
-  if (response.ok) {
+  if (!intentResponse.ok) {
+    alert("Something went wrong. Please try again.");
+    confirmBtn.textContent = "Confirm & Pay";
+    confirmBtn.disabled = false;
+    return;
+  }
+
+  // Step 2 — confirm payment with Stripe
+  const { error, paymentIntent } = await stripe.confirmCardPayment(
+    intentData.client_secret,
+    {
+      payment_method: {
+        card: cardElement,
+        billing_details: { name: `${fname} ${lname}`, email },
+      },
+    },
+  );
+
+  if (error) {
+    document.getElementById("card-errors").textContent = error.message;
+    confirmBtn.textContent = "Confirm & Pay";
+    confirmBtn.disabled = false;
+    return;
+  }
+
+  // Step 3 — payment succeeded, save the booking
+  const bookingResponse = await fetch("/api/bookings/confirm", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: user.user_id,
+      barber_id: state.barber_id,
+      service_id: state.service_id,
+      booking_date: formattedDate,
+      booking_time: formattedTime,
+      payment_intent_id: paymentIntent.id,
+    }),
+  });
+
+  if (bookingResponse.ok) {
     document.getElementById("contactForm").style.display = "none";
     const screen = document.getElementById("successScreen");
     screen.classList.add("show");
@@ -350,7 +412,7 @@ async function confirmBooking() {
       `${state.service} with ${state.barber === "Any" ? "a barber" : state.barber} on ${state.date} at ${state.time}.`;
     screen.scrollIntoView({ behavior: "smooth" });
   } else {
-    alert("Something went wrong. Please try again.");
+    alert("Payment succeeded but booking failed. Please contact us.");
   }
 }
 
